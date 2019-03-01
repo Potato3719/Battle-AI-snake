@@ -5,7 +5,6 @@ import bottle
 
 from api import ping_response, start_response, move_response, end_response
 
-# heroku testing
 
 @bottle.route('/')
 def index():
@@ -226,14 +225,24 @@ def move():
             elif down[1] in mybody_y and up[1] not in mybody_y:
                 direction = "up"
             elif up[1] in mybody_y and down[1] in mybody_y:
-                if 0 in mybody_y:
+                if 0 in mybody_y and height-1 not in mybody_y:
                     direction = "down"
-                elif height-1 in mybody_y:
+                elif height-1 in mybody_y and 0 not in mybody_y:
                     direction = "up"
                 else:
                     # Check if both my body are close to the wall,
                     # choose the direction with further body part touching the wall
-                    direction = random.choice(safe)
+                    wall_body_zero = []
+                    wall_body_height = []
+                    for i in mybody_y:
+                        if mybody_y[i] == 0:
+                            wall_body_zero.append(mybody_x[i])
+                        if mybody_y[i] == height-1:
+                            wall_body_height.append(mybody_x[i])
+                    if max(wall_body_zero) > max(wall_body_height):
+                        direction = "down"
+                    else:
+                        direction = "up"
             else:
                 direction = random.choice(safe)
         elif "up" not in safe and "down" not in safe:
@@ -252,7 +261,17 @@ def move():
                 else:
                     # check if both body are close to the wall,
                     # choose the direction with further body part touching the wall
-                    direction = random.choice(safe)
+                    wall_body_zero = []
+                    wall_body_width = []
+                    for i in mybody_x:
+                        if mybody_x[i] == 0:
+                            wall_body_zero.append(mybody_y[i])
+                        if mybody_x[i] == width:
+                            wall_body_width.append(mybody_y[i])
+                    if max(wall_body_zero) > max(wall_body_width):
+                        direction = "left"
+                    else:
+                        direction = "right"
             else:
                 direction = random.choice(safe)
         else:
