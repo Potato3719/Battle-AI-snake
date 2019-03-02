@@ -414,7 +414,7 @@ def move():
     print("dirkillpotential\n" + "===========\n" + str(dirkillpotential) + "\n")
     dirkillpotentialandsafer = [value for value in dirkillpotential if value in safer]
     print("dirkillpotentialandsafer\n" + "===========\n" + str(dirkillpotentialandsafer) + "\n")
-    if dirkillpotentialandsafer:
+    if myhealth > 30 and dirkillpotentialandsafer:
         direction = random.choice(dirkillpotentialandsafer)
         print("direction\n" + "===========\n" + str(direction) + "\n")
         return move_response(direction)
