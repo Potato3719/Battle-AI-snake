@@ -140,13 +140,6 @@ def move():
     if up not in snakexy and up[1] != -1:
         safe.append("up")
 
-    # 1. Check every point starting from one corner and moving to the other, in either rows or columns, it doesn't
-    # matter. Once you reach a point that has three or more orthogonally adjacent walls, mark that point as a dead
-    # end, and go to 2.
-    # 2. Find the direction of the empty space next to this point (if any), and check every point in
-    #  that direction. For each of those points: if it has two or more adjacent walls, mark it as a dead end. If it
-    # has only one wall, go to 3. If it has no walls, stop checking in this direction and continue with number 1.
-    # 3. In every direction that does not have a wall, repeat number 2.
 
     #check dead end
     print("safe")
@@ -167,51 +160,144 @@ def move():
         # direction is down which have ["down", "right", "left"] choice
         if "up" not in safe:
             # check right and left (x do not contain any body part)
-            if right[0] in mybody_x:
+            if right[0] in mybody_x and left[0] not in mybody_x:
                 safer.append("left")
                 safer.append("down")
                 direction = random.choice(safer)
-            elif left[0] in mybody_x:
+            elif left[0] in mybody_x and right[0] not in mybody_x:
                 safer.append("right")
                 safer.append("down")
+                direction = random.choice(safer)
+            elif left[0] in mybody_x and right[0] in mybody_x:
+                wall_body_zero = []
+                wall_body_width = []
+                body_head_y = mybody_y[0]
+                for i in mybody_x:
+                    if mybody_x[i] == 0:
+                        wall_body_zero.append(mybody_y[i])
+                    if mybody_x[i] == width - 1:
+                        wall_body_width.append(mybody_y[i])
+
+                if max(wall_body_zero) > max(wall_body_width):
+                    safer.append("down")
+                    if body_head_y > max(wall_body_zero):
+                        safer.append("right")
+                    else:
+                        safer.append("left")
+                else:
+                    safer.append("down")
+                    if body_head_y > max(wall_body_width):
+                        safer.append("left")
+                    else:
+                        safer.append("right")
                 direction = random.choice(safer)
             else:
                 direction = random.choice(safe)
         # direction is up which have ["up", "right", "left"] choice
         elif "down" not in safe:
             # check right and left (x do not contain any body part)
-            if right[0] in mybody_x:
+            if right[0] in mybody_x and left[0] not in mybody_x:
                 safer.append("left")
                 safer.append("up")
                 direction = random.choice(safer)
-            elif left[0] in mybody_x:
+            elif left[0] in mybody_x and right[0] not in mybody_x:
                 safer.append("right")
                 safer.append("up")
+                direction = random.choice(safer)
+            elif left[0] in mybody_x and right[0] in mybody_x:
+                wall_body_zero = []
+                wall_body_width = []
+                body_head_y = mybody_y[0]
+                for i in mybody_x:
+                    if mybody_x[i] == 0:
+                        wall_body_zero.append(mybody_y[i])
+                    if mybody_x[i] == width - 1:
+                        wall_body_width.append(mybody_y[i])
+
+                if max(wall_body_zero) < max(wall_body_width):
+                    safer.append("up")
+                    if body_head_y > max(wall_body_zero):
+                        safer.append("left")
+                    else:
+                        safer.append("right")
+                else:
+                    safer.append("up")
+                    if body_head_y > max(wall_body_width):
+                        safer.append("left")
+                    else:
+                        safer.append("right")
                 direction = random.choice(safer)
             else:
                 direction = random.choice(safe)
         # direction is left which have ["up", "down", "left"] choice
         elif "right" not in safe:
             # check up and down (y do not contain any body part)
-            if up[1] in mybody_y:
+            if up[1] in mybody_y and down[1] not in mybody_y:
                 safer.append("down")
                 safer.append("left")
                 direction = random.choice(safer)
-            elif down[1] in mybody_y:
+            elif down[1] in mybody_y and up[1] not in mybody_y:
                 safer.append("up")
                 safer.append("left")
+                direction = random.choice(safer)
+            elif down[1] in mybody_y and up[1] in mybody_y:
+                wall_body_zero = []
+                wall_body_height = []
+                body_head_x = mybody_x[0]
+                for i in mybody_y:
+                    if mybody_y[i] == 0:
+                        wall_body_zero.append(mybody_x[i])
+                    if mybody_y[i] == width:
+                        wall_body_height.append(mybody_x[i])
+
+                if max(wall_body_zero) < max(wall_body_height):
+                    safer.append("left")
+                    if body_head_x < min(wall_body_zero):
+                        safer.append("down")
+                    else:
+                        safer.append("up")
+                else:
+                    safer.append("left")
+                    if body_head_x < min(wall_body_height):
+                        safer.append("up")
+                    else:
+                        safer.append("down")
                 direction = random.choice(safer)
             else:
                 direction = random.choice(safe)
         # direction is right which have ["up", "down", "right"] choice
         else:
-            if up[1] in mybody_y:
+            if up[1] in mybody_y and down[1] not in mybody_y:
                 safer.append("down")
                 safer.append("right")
                 direction = random.choice(safer)
-            elif down[1] in mybody_y:
+            elif down[1] in mybody_y and up[1] not in mybody_y:
                 safer.append("up")
                 safer.append("right")
+                direction = random.choice(safer)
+            elif down[1] in mybody_y and up[1] in mybody_y:
+                wall_body_zero = []
+                wall_body_height = []
+                body_head_x = mybody_x[0]
+                for i in mybody_y:
+                    if mybody_y[i] == 0:
+                        wall_body_zero.append(mybody_x[i])
+                    if mybody_y[i] == width:
+                        wall_body_height.append(mybody_x[i])
+
+                if max(wall_body_zero) > max(wall_body_height):
+                    safer.append("right")
+                    if body_head_x > max(wall_body_zero):
+                            safer.append("down")
+                    else:
+                        safer.append("up")
+                else:
+                    safer.append("right")
+                    if body_head_x > max(wall_body_height):
+                        safer.append("up")
+                    else:
+                        safer.append("down")
+
                 direction = random.choice(safer)
             else:
                 direction = random.choice(safe)
@@ -234,15 +320,22 @@ def move():
                     # choose the direction with further body part touching the wall
                     wall_body_zero = []
                     wall_body_height = []
+                    body_head_x = mybody_x[0]
                     for i in mybody_y:
                         if mybody_y[i] == 0:
                             wall_body_zero.append(mybody_x[i])
                         if mybody_y[i] == height-1:
                             wall_body_height.append(mybody_x[i])
                     if max(wall_body_zero) > max(wall_body_height):
-                        direction = "down"
+                        if body_head_x > max(wall_body_zero):
+                            direction = "down"
+                        else:
+                            direction = "up"
                     else:
-                        direction = "up"
+                        if body_head_x > max(wall_body_height):
+                            direction = "up"
+                        else:
+                            direction = "down"
             else:
                 direction = random.choice(safe)
         elif "up" not in safe and "down" not in safe:
@@ -263,15 +356,22 @@ def move():
                     # choose the direction with further body part touching the wall
                     wall_body_zero = []
                     wall_body_width = []
+                    body_head_y = mybody_y[0]
                     for i in mybody_x:
                         if mybody_x[i] == 0:
                             wall_body_zero.append(mybody_y[i])
                         if mybody_x[i] == width:
                             wall_body_width.append(mybody_y[i])
-                    if max(wall_body_zero) > max(wall_body_width):
-                        direction = "left"
+                    if max(wall_body_zero) < max(wall_body_width):
+                        if body_head_y > max(wall_body_zero):
+                            direction = "left"
+                        else:
+                            direction = "right"
                     else:
-                        direction = "right"
+                        if body_head_y > max(wall_body_width):
+                            direction = "left"
+                        else:
+                            direction = "right"
             else:
                 direction = random.choice(safe)
         else:
