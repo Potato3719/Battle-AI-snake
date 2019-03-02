@@ -6,6 +6,7 @@ import bottle
 from api import ping_response, start_response, move_response, end_response
 
 # heroku testing
+# heroku test sucks
 
 @bottle.route('/')
 def index():
@@ -48,7 +49,7 @@ def start():
     print("================\n")
     # print(json.dumps(data))
 
-    color = "#0037ff"
+    color = "#ff0000"
     headType = "silly"
     tailType = "freckled"
 
@@ -414,7 +415,7 @@ def move():
     print("dirkillpotential\n" + "===========\n" + str(dirkillpotential) + "\n")
     dirkillpotentialandsafer = [value for value in dirkillpotential if value in safer]
     print("dirkillpotentialandsafer\n" + "===========\n" + str(dirkillpotentialandsafer) + "\n")
-    if myhealth > 30 and dirkillpotentialandsafer:
+    if myhealth > 40 and dirkillpotentialandsafer:
         direction = random.choice(dirkillpotentialandsafer)
         print("direction\n" + "===========\n" + str(direction) + "\n")
         return move_response(direction)
