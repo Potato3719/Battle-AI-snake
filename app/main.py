@@ -405,6 +405,7 @@ def move():
     else:
         safer = safe
 
+    # kill the weak snake
     # print("safer")
     # print(safer)
     # print("direction")
@@ -413,7 +414,7 @@ def move():
     print("dirkillpotential\n" + "===========\n" + str(dirkillpotential) + "\n")
     dirkillpotentialandsafer = [value for value in dirkillpotential if value in safer]
     print("dirkillpotentialandsafer\n" + "===========\n" + str(dirkillpotentialandsafer) + "\n")
-    if myhealth > 50 and dirkillpotentialandsafer:
+    if dirkillpotentialandsafer:
         direction = random.choice(dirkillpotentialandsafer)
         print("direction\n" + "===========\n" + str(direction) + "\n")
         return move_response(direction)
